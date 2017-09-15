@@ -13,7 +13,7 @@ scd_dates = ["2017-09-15"]
 crm.MakeCutReport(db,scd_dates,"isura")
 
 
-
+#gayan
 
 
 
