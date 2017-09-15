@@ -52,5 +52,5 @@ def MakeCutReport(db,scd_dates,fileName):
 
     # json convert to csv file
     df = pd.DataFrame(CutJobs)
-    csvfn = fileName + ".csv"
+    csvfn = str(fileName + ".csv")
     csvfile = df.to_csv(csvfn)
