@@ -6,11 +6,17 @@ import Report_Format as rf
 
 
 def MakeCutReport(db,scd_dates,fileName):
+    # get data from mongoDB
     featchData = db.plan.aggregate(ra.Cutjob(scd_dates))
+
+    # Make a Json File to write Reported Data
     fn = str(fileName)+".json"
+
     CutJobs = []
-    df = pd.DataFrame()
+
     cjobfile = open(fn, 'w')
+
+    # Mapped featch data with report format
     for doc in featchData:
         crf = rf.CutJOb_Report
         s1 = doc['style']
@@ -43,3 +49,8 @@ def MakeCutReport(db,scd_dates,fileName):
         cjobfile.write(json.dumps(crf))
         cjobfile.write('\n')
     cjobfile.close()
+
+    # json convert to csv file
+    df = pd.DataFrame(CutJobs)
+    csvfn = fileName + ".csv"
+    csvfile = df.to_csv(csvfn)
