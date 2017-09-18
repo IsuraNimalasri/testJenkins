@@ -6,7 +6,7 @@ import pandas as pd
 
 #  create mongo client .
 
-client = MongoClient('localhost', 27017)
+client = MongoClient('localhost', 27777)
 db = client['blzdb']
 
 # Make CutReport for given scd dates
