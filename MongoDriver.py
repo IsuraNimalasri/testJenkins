@@ -9,10 +9,10 @@ import pandas as pd
 client = MongoClient('localhost', 27017)
 db = client['blzdb']
 
-# Make CutReport
+# Make CutReport for given scd dates
 
 scd_dates = []
-    # get Today
+# get Today
 date = (time.strftime("%Y-%m-%d"))
 d = map(str, date.split('-'))
 
@@ -36,15 +36,24 @@ else:
     for i in range(0, 2):
         scd_date = str(d[0]) + "-" + str(d[1]) + "-" + str(int(d[2]) + i)
         scd_dates.append(scd_date)
+nw = now.split(" ")
 
-fileName = "cutting_job_report_" + scd_dates[0] + "to" + scd_dates[len(scd_dates) - 1]
-print scd_dates
-print fileName
+fileName = scd_dates[0] + "_"+time.strftime('%H-%M') +"_cutting_job_report"
+# fileName = "test"
+# print scd_dates
+# print fileName
 
 # Run CutReport
 crm.MakeCutReport(db, scd_dates, fileName)
+# csv convter
+cjf = fileName+".json"
+csvFile = fileName + ".xlsx"
+dff = pd.read_json(cjf)
+# print dff
 
-# df = pd.read_json(fileName)
+dff.to_excel(csvFile)
+
+
 
 
 

@@ -3,19 +3,18 @@ import json
 import datetime
 import query_node as ra
 import Report_Format as rf
+import os
 
 
 def MakeCutReport(db,scd_dates,fileName):
     # get data from mongoDB
     featchData = db.plan.aggregate(ra.Cutjob(scd_dates))
-
+    # featchData = db.test.aggregate(ra.Cutjob(scd_dates))
     # Make a Json File to write Reported Data
     fn = str(fileName)+".json"
-
-    CutJobs = []
-
     cjobfile = open(fn, 'w')
-
+    cjobfile.write('[')
+    x = 0
     # Mapped featch data with report format
     for doc in featchData:
         crf = rf.CutJOb_Report
@@ -45,12 +44,14 @@ def MakeCutReport(db,scd_dates,fileName):
         crf['Scd_Plan'] = doc['scd_plan']
         crf['Production_Plan'] = doc['production_plan']
         crf['ReportedTime'] = long(datetime.datetime.now().strftime("%s")) * 1000
-        CutJobs.append(crf)
+        # print crf
+        # cut_job_list.append(crf)
         cjobfile.write(json.dumps(crf))
+        cjobfile.write(',')
         cjobfile.write('\n')
+        x = x +1
+    cjobfile.write('{}')
+    cjobfile.write(']')
     cjobfile.close()
 
-    # json convert to csv file
-    df = pd.DataFrame(CutJobs)
-    csvfn = str(fileName + ".csv")
-    csvfile = df.to_csv(csvfn)
+
