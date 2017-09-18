@@ -7,6 +7,7 @@ import pandas as pd
 #  create mongo client .
 
 client = MongoClient('localhost', 27777)
+# client = MongoClient('localhost', 27017)
 db = client['blzdb']
 
 # Make CutReport for given scd dates
@@ -33,7 +34,7 @@ elif day == "Sun":
         scd_date = str(d[0]) + "-" + str(d[1]) + "-" + str(int(d[2]) + i)
         scd_dates.append(scd_date)
 else:
-    for i in range(0, 2):
+    for i in range(0, 3):
         scd_date = str(d[0]) + "-" + str(d[1]) + "-" + str(int(d[2]) + i)
         scd_dates.append(scd_date)
 nw = now.split(" ")
@@ -52,7 +53,7 @@ dff = pd.read_json(cjf)
 # print dff
 
 dff.to_excel(csvFile)
-
+print scd_dates
 
 
 
